@@ -136,7 +136,7 @@ export class SupplierComponent {
                   Hacienda
                 `,
           };
-          // this.smsService.sendFarmerSMS(payload1).subscribe();
+          // this.smsService.sendSupplierSMS(payload1).subscribe();
         },
         () => {
           this.authService.logout();
