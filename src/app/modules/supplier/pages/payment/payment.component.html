@@ -101,9 +101,14 @@
                 <div class="m-2">{{ payment?.paymentMode }}</div>
               </div>
               <div>
-                <div class="m-1">Estimated Delivery</div>
+                <div class="m-1" *ngIf="transactions.deliveredDate === null">
+                  Estimated Delivery
+                </div>
+                <div class="m-1" *ngIf="transactions.deliveredDate !== null">
+                  Delivered Date
+                </div>
                 <div class="m-2" *ngIf="transactions.deliverDate === null">
-                  <ng-container *ngIf="transactions.deliverDate === null">
+                  <ng-container *ngIf="transactions.deliveredDate === null">
                     {{ transactions.paidDate | date : "MMMM d, y" }}
                     to
                     {{
@@ -113,13 +118,8 @@
                     }}
                   </ng-container>
 
-                  <ng-container *ngIf="transactions.deliverDate !== null">
-                    {{ transactions?.deliverDate | date : "MMMM d" }} to
-                    {{
-                      transactions.deliverDate
-                        | dateSecondAdd : 3
-                        | date : "MMMM d"
-                    }}
+                  <ng-container *ngIf="transactions.deliveredDate !== null">
+                    {{ transactions?.deliveredDate | date : "MMMM d, y" }}
                   </ng-container>
                 </div>
               </div>
