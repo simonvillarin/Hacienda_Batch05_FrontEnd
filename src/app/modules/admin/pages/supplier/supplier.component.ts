@@ -14,7 +14,7 @@ import { SmsService } from 'src/app/shared/services/sms/sms.service';
 export class SupplierComponent {
   suppliers: any = [];
   supplier: any = {};
-  statusArr: any = ['Active', 'Inactive', 'Pending'];
+  statusArr: any = ['Active', 'Inactive', 'Pending', 'Rejected'];
 
   detailsDialog = false;
   confirmationDialog = false;
@@ -25,6 +25,10 @@ export class SupplierComponent {
 
   totalAds: number = 0;
   page: number = 0;
+
+  stat: any;
+  dialogTitle: any;
+  dialogBody: any;
 
   constructor(
     private userService: UserService,
@@ -75,39 +79,39 @@ export class SupplierComponent {
   }
 
   onDelete = (supplier: any) => {
+    this.stat = '';
     this.supplier = supplier;
+
+    if (supplier.status === 'Active') {
+      this.dialogTitle = 'Deactivate';
+      this.dialogBody = 'Are you sure you want to deactivate this farmer?';
+    } else {
+      this.dialogTitle = 'Activate';
+      this.dialogBody = 'Are you sure you want to activate this farmer?';
+    }
+
     this.confirmationDialog = true;
   };
 
   onConfirmDelete(): void {
     let payload: any = {};
 
-    if (this.supplier.status === 'Active') {
-      payload.status = 'Inactive';
-    } else {
+    if (this.stat === 'Approve') {
       payload.status = 'Active';
-    }
+      this.userService.updateUser(this.supplier.userId, payload).subscribe(
+        () => {
+          this.getSuppliers();
+          this.confirmationDialog = false;
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Activated',
+            detail: 'Activated Successfully',
+          });
 
-    this.userService.updateUser(this.supplier.userId, payload).subscribe(
-      () => {
-        this.getSuppliers();
-        this.confirmationDialog = false;
-        const summary =
-          this.supplier.status === 'Inactive' ? 'Deactivated' : 'Activated';
-        const details =
-          this.supplier.status === 'Inactive'
-            ? 'Dectivated Successfully'
-            : 'Activated Sucessfully';
-        this.messageService.add({
-          severity: 'success',
-          summary: summary,
-          detail: details,
-        });
-
-        const payload = {
-          email: this.supplier.email,
-          subject: `Account Activation`,
-          message: `
+          const payload = {
+            email: this.supplier.email,
+            subject: `Account Activation`,
+            message: `
                   Dear ${this.supplier.firstName},
 
                   We're thrilled to inform you that your account has been successfully activated! You can now enjoy and explore all the features of our platform.
@@ -117,11 +121,11 @@ export class SupplierComponent {
                   Warm regards,
                   Hacienda
                 `,
-        };
+          };
 
-        this.emailService.sendEmail1(payload).subscribe();
-        const payload1 = {
-          message: `
+          this.emailService.sendEmail1(payload).subscribe();
+          const payload1 = {
+            message: `
                   Dear ${this.supplier.firstName},
 
                   We're thrilled to inform you that your account has been successfully activated! You can now enjoy and explore all the features of our platform.
@@ -131,14 +135,104 @@ export class SupplierComponent {
                   Warm regards,
                   Hacienda
                 `,
-        };
-        // this.smsService.sendFarmerSMS(payload1).subscribe();
-      },
-      () => {
-        this.authService.logout();
+          };
+          // this.smsService.sendFarmerSMS(payload1).subscribe();
+        },
+        () => {
+          this.authService.logout();
+        }
+      );
+    } else if (this.stat === 'Reject') {
+      payload.status = 'Rejected';
+      this.userService.updateUser(this.supplier.userId, payload).subscribe(
+        () => {
+          this.getSuppliers();
+          this.confirmationDialog = false;
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Rejected',
+            detail: 'Rejected Successfully',
+          });
+
+          const payload = {
+            email: this.supplier.email,
+            subject: `Account Activation`,
+            message: `
+                  Dear ${this.supplier.firstName},
+
+                  I hope this email finds you well. We appreciate your interest in Hacienda and your recent application for an account with us. We have carefully reviewed your application, and unfortunately, we regret to inform you that your account application has been rejected.
+
+                  Thank you!.
+
+                  Warm regards,
+                  Hacienda
+                `,
+          };
+
+          this.emailService.sendEmail1(payload).subscribe();
+          const payload1 = {
+            message: `
+                  Dear ${this.supplier.firstName},
+
+                  I hope this email finds you well. We appreciate your interest in Hacienda and your recent application for an account with us. We have carefully reviewed your application, and unfortunately, we regret to inform you that your account application has been rejected.
+
+                  Thank you!.
+
+                  Warm regards,
+                  Hacienda
+                `,
+          };
+          // this.smsService.sendFarmerSMS(payload1).subscribe();
+        },
+        () => {
+          this.authService.logout();
+        }
+      );
+    } else {
+      if (this.supplier.status === 'Active') {
+        payload.status = 'Inactive';
+      } else {
+        payload.status = 'Active';
       }
-    );
+
+      this.userService.updateUser(this.supplier.userId, payload).subscribe(
+        () => {
+          this.getSuppliers();
+          this.confirmationDialog = false;
+          const summary =
+            this.supplier.status === 'Inactive' ? 'Activated' : 'Deactivated';
+          const details =
+            this.supplier.status === 'Inactive'
+              ? 'Activated Successfully'
+              : 'Dectivated Sucessfully';
+          this.messageService.add({
+            severity: 'success',
+            summary: summary,
+            detail: details,
+          });
+        },
+        () => {
+          this.authService.logout();
+        }
+      );
+    }
   }
+
+  onApprove = (supplier: any) => {
+    this.supplier = supplier;
+    this.stat = 'Approve';
+    this.dialogTitle = 'Activate';
+    this.dialogBody = 'Are you sure you want to activate this supplier?';
+    this.confirmationDialog = true;
+  };
+
+  onReject = (supplier: any) => {
+    this.supplier = supplier;
+    this.stat = 'Reject';
+    this.dialogTitle = 'Reject';
+    this.dialogBody = 'Are you sure you want to reject this supplier?';
+    this.confirmationDialog = true;
+  };
 
   openDetailsDialog = (supplier: any) => {
     this.supplier = supplier;

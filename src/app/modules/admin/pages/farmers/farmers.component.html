@@ -81,7 +81,9 @@
                   ? 'active'
                   : farmer.status === 'Inactive'
                   ? 'inactive'
-                  : 'pending'
+                  : farmer.status === 'Pending'
+                  ? 'pending'
+                  : 'rejected'
               }}"
             >
               {{ farmer.status }}
@@ -96,17 +98,43 @@
               >
                 <span class="material-symbols-rounded"> person </span>
               </button>
-              <button
-                class="btn-deactivate {{
-                  farmer.status === 'Active' ? 'inactive' : 'active'
-                }}"
-                [title]="farmer.status === 'Active' ? 'Deactivate' : 'Activate'"
-                (click)="onDelete(farmer)"
+              <ng-container *ngIf="farmer.status !== 'Pending'">
+                <ng-container *ngIf="farmer.status !== 'Rejected'">
+                  <button
+                    class="btn-deactivate {{
+                      farmer.status === 'Active' ? 'inactive' : 'active'
+                    }}"
+                    [title]="
+                      farmer.status === 'Active' ? 'Deactivate' : 'Activate'
+                    "
+                    (click)="onDelete(farmer)"
+                  >
+                    <span class="material-symbols-rounded">
+                      {{ farmer.status === "Active" ? "block" : "check" }}</span
+                    >
+                  </button>
+                </ng-container>
+              </ng-container>
+              <ng-container *ngIf="farmer.status !== 'Active'">
+                <ng-container *ngIf="farmer.status !== 'Inactive'">
+                  <button
+                    class="btn-approve"
+                    title="Approve"
+                    (click)="onApprove(farmer)"
+                  >
+                    <span class="material-symbols-rounded"> thumb_up</span>
+                  </button>
+                </ng-container></ng-container
               >
-                <span class="material-symbols-rounded">
-                  {{ farmer.status === "Active" ? "close" : "check" }}</span
+              <ng-container *ngIf="farmer.status !== 'Rejected'">
+                <button
+                  class="btn-reject"
+                  title="Reject"
+                  (click)="onReject(farmer)"
                 >
-              </button>
+                  <span class="material-symbols-rounded"> thumb_down</span>
+                </button></ng-container
+              >
             </div>
           </td>
         </tr>
@@ -131,12 +159,11 @@
   >
     <p-header>
       <div class="dialog-title">
-        {{ farmer.status === "Active" ? "Deactivate" : "Activate" }}
+        {{ dialogTitle }}
       </div>
     </p-header>
     <div class="dialog-body">
-      Are you sure you want to
-      {{ farmer.status === "Active" ? "deactivate" : "activate" }} this farmer?
+      {{ dialogBody }}
     </div>
     <div class="dialog-actions">
       <button class="dialog-btn cancel" (click)="onCancelDelete()">

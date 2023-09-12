@@ -323,10 +323,11 @@ export class RegisterComponent implements OnInit {
   onFileSelected(event: any) {
     this.file = event.target.files[0];
     const reader = new FileReader();
+    this.idFrontPreview = true;
+    this.idFrontEmpty = false;
+    console.log(this.idFrontPreview);
 
     reader.onload = (e: any) => {
-      this.idFrontPreview = true;
-      this.idFrontEmpty = false;
       this.idFront = e.target.result;
     };
 
@@ -364,10 +365,11 @@ export class RegisterComponent implements OnInit {
   onFileSelected1(event: any) {
     this.file = event.target.files[0];
     const reader = new FileReader();
+    this.idBackPreview = true;
+    this.idBackEmpty = false;
+    console.log(this.idBackPreview);
 
     reader.onload = (e: any) => {
-      this.idBackPreview = true;
-      this.idBackEmpty = false;
       this.idBack = e.target.result;
     };
 
@@ -465,15 +467,13 @@ export class RegisterComponent implements OnInit {
             setTimeout(() => (this.alert = false), 3000);
             scroll(0, 0);
           } else {
-            this.idFront = null;
-            this.idBack = null;
             this.idFrontPreview = false;
             this.idBackPreview = false;
             this.alert = true;
             this.isError = false;
             this.alertMessage =
               'Registered successful! Please wait for the email or text message upon the activation of your account';
-            setTimeout(() => (this.alert = false), 3000);
+            setTimeout(() => (this.alert = false), 5000);
             scroll(0, 0);
 
             const radioButtons =

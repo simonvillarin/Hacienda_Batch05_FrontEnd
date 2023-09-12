@@ -13,32 +13,14 @@
   <div class="container">
     <div class="form">
       <div class="header">
-        <h3
-          data-aos="fade-up"
-          data-aos-duration="1200"
-          data-aos-delay="100"
-          data-aos-easing="ease-in-out"
-        >
-          Get in touch
-        </h3>
-        <p
-          data-aos="fade-up"
-          data-aos-duration="1300"
-          data-aos-delay="100"
-          data-aos-easing="ease-in-out"
-        >
+        <h3>Get in touch</h3>
+        <p>
           If you have any questions, please don't hesitate to get in touch with
           us by sending a message
         </p>
       </div>
       <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-        <div
-          class="input-group"
-          data-aos="fade-up"
-          data-aos-duration="1300"
-          data-aos-delay="100"
-          data-aos-easing="ease-in-out"
-        >
+        <div class="input-group">
           <label>Name<span>*</span></label>
           <input type="text" pInputText formControlName="name" />
           <div *ngIf="name.invalid && (name?.dirty || name?.touched)">
@@ -49,13 +31,7 @@
             >
           </div>
         </div>
-        <div
-          class="input-group"
-          data-aos="fade-up"
-          data-aos-duration="1400"
-          data-aos-delay="100"
-          data-aos-easing="ease-in-out"
-        >
+        <div class="input-group">
           <label>Email<span>*</span></label>
           <input type="text" pInputText formControlName="email" />
           <div *ngIf="email.invalid && (email?.dirty || email?.touched)">
@@ -71,13 +47,7 @@
             >
           </div>
         </div>
-        <div
-          class="input-group"
-          data-aos="fade-up"
-          data-aos-duration="1400"
-          data-aos-delay="100"
-          data-aos-easing="ease-in-out"
-        >
+        <div class="input-group">
           <label>Message<span>*</span></label>
           <textarea
             rows="5"
@@ -93,15 +63,7 @@
             >
           </div>
         </div>
-        <button
-          type="submit"
-          data-aos="fade-up"
-          data-aos-duration="1400"
-          data-aos-delay="100"
-          data-aos-easing="ease-in-out"
-        >
-          SEND
-        </button>
+        <button type="submit">SEND</button>
       </form>
     </div>
   </div>

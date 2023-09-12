@@ -162,22 +162,26 @@ export class HistoryComponent implements OnInit {
     this.paymentDate = this.payment.payment.transaction.paidDate;
     this.deliverDate = this.payment.payment.transaction.deliverDate;
 
+    console.log(payment.payment.transaction.supplier);
+
     this.changeAddressService
-      .getChangeAddressByTransactionId(payment.payment.transaction.supplierId)
+      .getChangeAddressByTransactionId(
+        payment.payment.transaction.supplier.userId
+      )
       .subscribe(
         (data: any) => {
           this.userService
-            .getUserById(payment.payment.transaction.supplierId)
+            .getUserById(payment.payment.transaction.supplier.userId)
             .subscribe((res: any) => {
               this.deliveredTo =
                 data.fullName ||
                 res.firstName +
                   ' ' +
-                  res.middleName +
+                  (res.middleName || '') +
                   ' ' +
                   res.lastName +
                   ' ' +
-                  res.suffix;
+                  (res.suffix || '');
               this.contact = data.contact || res.contact;
               this.address =
                 (data.unit || res.unit) +
@@ -198,16 +202,16 @@ export class HistoryComponent implements OnInit {
         },
         () => {
           this.userService
-            .getUserById(payment.payment.transaction.supplierId)
+            .getUserById(payment.payment.transaction.supplier.userId)
             .subscribe((res: any) => {
               this.deliveredTo =
                 res.firstName +
                 ' ' +
-                res.middleName +
+                (res.middleName || '') +
                 ' ' +
                 res.lastName +
                 ' ' +
-                res.suffix;
+                (res.suffix || '');
               this.contact = res.contact;
               this.address =
                 res.unit +

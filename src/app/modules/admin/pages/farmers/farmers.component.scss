@@ -157,7 +157,9 @@ tr td {
 }
 
 .btn-details,
-.btn-deactivate {
+.btn-deactivate,
+.btn-approve,
+.btn-reject {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -169,7 +171,19 @@ tr td {
 }
 
 .btn-details {
+  background-color: var(--blue);
+}
+
+.btn-approve {
   background-color: var(--primary);
+}
+
+.btn-deactivate {
+  background-color: var(--orange);
+}
+
+.btn-reject {
+  background-color: var(--red);
 }
 
 .status,
@@ -187,11 +201,15 @@ tr td {
 }
 
 .inactive {
-  background-color: var(--red);
+  background-color: var(--orange);
 }
 
 .pending {
   background-color: var(--yellow);
+}
+
+.rejected {
+  background-color: var(--red);
 }
 
 span {
