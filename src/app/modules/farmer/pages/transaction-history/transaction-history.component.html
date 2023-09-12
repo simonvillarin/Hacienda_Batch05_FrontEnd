@@ -53,17 +53,7 @@
       <div class="card flex justify-content-center">
         <p-card header="Delivery Address">
           <p style="font-weight: 400">Order will be shipped to:</p>
-          <p class="m-0">
-            <ng-container *ngIf="this.changeAddress.transactionId === null">
-              {{ user.firstName }}
-              {{ user.middleName }} {{ user.lastName }}
-              {{ user.suffix }}
-            </ng-container>
-
-            <ng-container *ngIf="this.changeAddress.transactionId !== null">
-              {{ this.changeAddress.fullName }}
-            </ng-container>
-          </p>
+          <p class="m-0">{{ changeAddress.fullName || fullName }}</p>
 
           <ng-template pTemplate="title">
             <span
@@ -80,31 +70,16 @@
 
           <ng-template pTemplate="content">
             <p class="contact" style="font-weight: 500">
-              <ng-container *ngIf="this.changeAddress.transactionId === null">
-                {{ user.contact }}
-              </ng-container>
-
-              <ng-container *ngIf="this.changeAddress.transactionId !== null">
-                {{ this.changeAddress.contact }}
-              </ng-container>
+              {{ changeAddress.contact || user1.contact }}
             </p>
             <p style="font-weight: 500">
-              <ng-container *ngIf="this.changeAddress.transactionId === null">
-                {{ user.unit }}
-                {{ user.street }}, {{ user.village }}, {{ user.barangay }}
-                {{ user.city }}, {{ this.user.province }},
-                {{ user.region }}
-              </ng-container>
-
-              <ng-container *ngIf="this.changeAddress.transactionId !== null">
-                {{ this.changeAddress.unit }}
-                {{ this.changeAddress.street }},
-                {{ this.changeAddress.village }},
-                {{ this.changeAddress.barangay }}
-                {{ this.changeAddress.city }},
-                {{ this.changeAddress.province }},
-                {{ this.changeAddress.region }}
-              </ng-container>
+              {{ changeAddress.unit || user1.unit }},
+              {{ changeAddress.street || user1.street }},
+              {{ changeAddress.village || user1.village }},
+              {{ changeAddress.barangay || user1.barangay }},
+              {{ changeAddress.city || user1.city }},
+              {{ changeAddress.province || user1.province }},
+              {{ changeAddress.region || user1.region }}
             </p>
           </ng-template>
         </p-card>

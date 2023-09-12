@@ -37,6 +37,7 @@ export class PaymentComponent implements OnInit {
   post: any = {};
   payments: any;
   paymentDetails: any;
+  fullName: any;
 
   isViewed = false;
   isPaid = false;
@@ -77,6 +78,14 @@ export class PaymentComponent implements OnInit {
       .getUserById(this.authService.getUserId())
       .subscribe((data: any) => {
         this.user = data;
+        this.fullName =
+          data.firstName +
+          ' ' +
+          (data.middleName || '') +
+          ' ' +
+          data.lastName +
+          '' +
+          (data.suffix || '');
       });
   };
 

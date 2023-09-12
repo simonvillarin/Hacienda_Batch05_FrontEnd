@@ -163,11 +163,11 @@ export class HistoryComponent implements OnInit {
     this.deliverDate = this.payment.payment.transaction.deliverDate;
 
     this.changeAddressService
-      .getChangeAddressByTransactionId(this.authService.getUserId())
+      .getChangeAddressByTransactionId(payment.payment.transaction.supplierId)
       .subscribe(
         (data: any) => {
           this.userService
-            .getUserById(this.authService.getUserId())
+            .getUserById(payment.payment.transaction.supplierId)
             .subscribe((res: any) => {
               this.deliveredTo =
                 data.fullName ||
@@ -198,7 +198,7 @@ export class HistoryComponent implements OnInit {
         },
         () => {
           this.userService
-            .getUserById(this.authService.getUserId())
+            .getUserById(payment.payment.transaction.supplierId)
             .subscribe((res: any) => {
               this.deliveredTo =
                 res.firstName +

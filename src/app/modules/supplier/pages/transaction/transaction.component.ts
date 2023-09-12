@@ -289,11 +289,11 @@ export class TransactionComponent implements OnInit {
         this.fullN =
           data.firstName +
           ' ' +
-          data.middleName +
+          (data.middleName || '') +
           ' ' +
           data.lastName +
           ' ' +
-          data.suffix;
+          (data.suffix + '');
       });
   };
 

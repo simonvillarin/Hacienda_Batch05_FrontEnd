@@ -36,6 +36,8 @@ export class TransactionHistoryComponent implements OnInit {
   post: any = {};
   payments: any;
   paymentDetails: any;
+  fullName: any;
+  user1: any = {};
 
   isViewed = false;
   isPaid = false;
@@ -85,7 +87,6 @@ export class TransactionHistoryComponent implements OnInit {
 
     this.paymentService.getPaymentById(param).subscribe((data: any) => {
       this.payments = data;
-      console.log(data);
 
       const transactionId = data.transactionId;
       this.paymentService
@@ -111,6 +112,20 @@ export class TransactionHistoryComponent implements OnInit {
           if (data.deliveredDate) {
             this.isDelivered = true;
           }
+
+          this.userService
+            .getUserById(this.transactions.supplierId)
+            .subscribe((res: any) => {
+              this.fullName =
+                res.firstName +
+                ' ' +
+                (res.middleName || '') +
+                ' ' +
+                res.lastName +
+                ' ' +
+                (res.suffix || '');
+              this.user1 = res;
+            });
 
           const offerId = data.offerId;
           this.offerService.getOfferById(offerId).subscribe((data: any) => {
