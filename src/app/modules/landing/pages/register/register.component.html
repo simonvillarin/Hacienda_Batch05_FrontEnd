@@ -461,7 +461,7 @@
       </div>
       <div class="input-group">
         <label>ID Number<span class="required">*</span></label>
-        <input pInputText formControlName="idNumber" pKeyFilter="int" />
+        <input pInputText formControlName="idNumber" />
         <div *ngIf="idNumber.invalid && (idNumber?.dirty || idNumber.touched)">
           <small
             [style]="{ color: 'var(--red)' }"

@@ -327,7 +327,7 @@
   [(visible)]="changeDialog"
   [modal]="true"
   [breakpoints]="{ '600px': '90vw' }"
-  [style]="{ width: '50vw' }"
+  [style]="{ width: '75vw' }"
   [draggable]="false"
   [resizable]="false"
 >
@@ -365,7 +365,7 @@
     <div class="form-group">
       <div class="input-group">
         <label>Contact Number<span class="required">*</span></label>
-        <input pInputText formControlName="contact" />
+        <input pInputText formControlName="contact" pKeyFilter="int" />
         <div *ngIf="contact.invalid && (contact?.dirty || contact.touched)">
           <small
             [style]="{ color: 'var(--red)' }"
