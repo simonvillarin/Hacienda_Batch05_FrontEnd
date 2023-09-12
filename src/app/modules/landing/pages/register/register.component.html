@@ -348,6 +348,11 @@
             *ngIf="username.errors?.['required']"
             >Username is required</small
           >
+          <small
+            [style]="{ color: 'var(--red)' }"
+            *ngIf="username.errors?.['minlength']"
+            >Username is should be 6 characters and up</small
+          >
         </div>
       </div>
       <div class="input-group">
