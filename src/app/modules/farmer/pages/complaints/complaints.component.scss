@@ -246,14 +246,13 @@ img {
 }
 
 .crop-container {
-  width: 4rem;
-  height: 4rem;
-  border-radius: 50%;
+  width: 100%;
+  height: 4.5rem;
   overflow: hidden;
 }
 
 .crop-container > img {
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .table-actions {
